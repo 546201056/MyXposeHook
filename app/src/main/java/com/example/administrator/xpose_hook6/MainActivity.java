@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.administrator.xpose_hook6.service.UcAdaActivity;
 import com.example.administrator.xpose_hook6.utils.ShellUtils;
 
 import org.json.JSONException;
@@ -84,6 +85,12 @@ public class MainActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        findViewById(R.id.ucbtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+           startActivity(new Intent(MainActivity.this, UcAdaActivity.class));
             }
         });
 
