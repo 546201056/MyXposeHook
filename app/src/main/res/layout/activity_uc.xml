@@ -7,17 +7,18 @@
     <TextView
     android:id="@+id/text"
     android:layout_width="wrap_content"
+        android:visibility="gone"
     android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="测试" />
-    <Button
-        android:id="@+id/ucbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="UC" />
+    <WebView
+        android:id="@+id/web"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

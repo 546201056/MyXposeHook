@@ -10,6 +10,8 @@ public class TapSwipe {
 //   private  Random random;
     public static void TapUc()throws Exception {
 //        ShellUtils.execCommand("input tap 330 410", true);
+//        ShellUtils.execCommand("input tap 320 185", true);
+
 //        Thread.sleep(5000);
 
         Random random = new Random();
@@ -33,7 +35,7 @@ public class TapSwipe {
                     if (y < 50) {
                         y = 51;
                     }
-                    int y_from = random.nextInt(1120) + 60;
+                    int y_from = random.nextInt(1120);
                     if (y_from < 50) {
                         y_from = 51;
                     }
@@ -55,9 +57,12 @@ public class TapSwipe {
                             + "] to [" + x + "," + y_to + "]");
                     ShellUtils.execCommand(" input swipe  " + x
                             + " " + y_from + " " + x + " " + y_to,true);
+//                    ShellUtils.execCommand("input swipe duration(5000)",true);
+
                     int swipeSleepTime = new Random().nextInt(1000) + 1000;
                     System.out.println("swipeSleepTime:===>"
                             + swipeSleepTime + "ms");
+
                     Thread.sleep(swipeSleepTime);
                 }
             }

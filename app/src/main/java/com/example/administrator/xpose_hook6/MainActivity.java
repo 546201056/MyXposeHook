@@ -16,7 +16,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.administrator.xpose_hook6.service.Const;
 import com.example.administrator.xpose_hook6.service.UcAdaActivity;
 import com.example.administrator.xpose_hook6.utils.ShellUtils;
 
@@ -30,6 +32,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -68,33 +71,42 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-
+    TextView txt;
     //String command = "pm clear " + packageName + "\n";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView txt= (TextView) findViewById(R.id.text);
-        EditText edit= (EditText) findViewById(R.id.edit);
+         txt= (TextView) findViewById(R.id.text);
         Button btn= (Button) findViewById(R.id.btn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    setVpn("192.168.1.1","","");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int index =  new Random().nextInt(8);
+                        Log.e(TAG, "run  111: "+index );
+                        try {
+                            setVpn(Const.arrIp[index],Const.arrVpnAccount[index],Const.vpnPwd);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
+
             }
         });
         findViewById(R.id.ucbtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
            startActivity(new Intent(MainActivity.this, UcAdaActivity.class));
+//                inspectIP();
             }
         });
 
-        putEditorSp();
+//        putEditorSp();
     }
 
     private void putEditorSp(){
@@ -147,25 +159,28 @@ public class MainActivity extends AppCompatActivity {
      */
     private  void inspectIP() {
         try {
-            RequestParams params = new RequestParams("http://pv.sohu.com/cityjson?ie=utf-8");
+//            RequestParams params = new RequestParams("http://pv.sohu.com/cityjson?ie=utf-8");
+            RequestParams params = new RequestParams("http://123.56.165.2:8081/app/getIp");
+
             x.http().get(params, new Callback.CommonCallback<String>() {
                 @Override
                 public void onSuccess(String result) {
-                    try {
-                        JSONObject jb = new JSONObject(result.substring(result.lastIndexOf("=")+1,result.length()).trim());
-                        Log.d(TAG, "onSuccess2222: "+   jb.get("cip")  );
-                    } catch (JSONException e) {
-                    }
-                    Log.d(TAG, "onSuccess: "+result.toString());
+                    Log.e(TAG, "onSuccess111111111: "+result.toString());
+//                    try {
+//                        JSONObject jb = new JSONObject(result.substring(result.lastIndexOf("=")+1,result.length()).trim());
+//                        Log.d(TAG, "onSuccess2222: "+   jb.get("cip")  );
+                        txt.setText(result+"");
+//                    } catch (JSONException e) {
+//                    }
                 }
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-                    Log.d(TAG, "onError: "+ex.toString());
+                    Log.e(TAG, "onError11111: "+ex.toString());
                 }
                 @Override
                 public void onCancelled(CancelledException cex) {
-                    Log.d(TAG, "onCancelled: "+cex.toString());
+                    Log.e(TAG, "onCancelled11111: "+cex.toString());
                 }
                 @Override
                 public void onFinished() {
